@@ -13,6 +13,7 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	private String fullName;
 	private String userName;
 	private String password;
 	@ManyToOne
@@ -21,8 +22,9 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public User(int id, String userName, String password, Role role) {
+	public User(int id, String fullName, String userName, String password, Role role) {
 		this.id = id;
+		this.fullName = fullName;
 		this.userName = userName;
 		this.password = password;
 		this.role = role;
@@ -60,8 +62,12 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
-	@Override
-	public String toString() {
-		return "User{" + "id=" + id + ", userName=" + userName + ", password=" + password + ", role=" + role + '}';
+	public String getFullName() {
+		return fullName;
 	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+	
 }
