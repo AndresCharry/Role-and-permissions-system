@@ -1,6 +1,7 @@
 package com.mycompany.rolesandpermissionssystem.persistence;
 
 import com.mycompany.rolesandpermissionssystem.logic.User;
+import java.util.List;
 
 public class PersistenceController {
 	
@@ -9,5 +10,9 @@ public class PersistenceController {
 
 	public void createUser(User user) {
 		userJpa.create(user);
+	}
+	
+	public List<User> findUsers(){
+		return userJpa.findUserEntities();
 	}
 }

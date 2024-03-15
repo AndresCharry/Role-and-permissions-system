@@ -1,13 +1,25 @@
 package com.mycompany.rolesandpermissionssystem.logic;
 
 import com.mycompany.rolesandpermissionssystem.persistence.PersistenceController;
+import java.util.List;
 
 public class LogicController {
 	
 	PersistenceController persistenceController = new PersistenceController();
 
-	public boolean checkUser(String text, String toString) {
-		throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+	public boolean checkUser(String userName, String password) {
+		List<User> listUsers = persistenceController.findUsers();
+		
+		if (!listUsers.isEmpty()){
+			for (User user : listUsers){
+				if (user.getUserName().equalsIgnoreCase(userName)){
+					if(user.getPassword().equals(password)){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	public void createUser(String fullName, String userName, String password) {

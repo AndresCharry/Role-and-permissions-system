@@ -154,21 +154,25 @@ public class LogInScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        // TODO add your handling code here:
 		txtUserName.setText("");
 		txtPassword.setText("");
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
-        // TODO add your handling code here:
 		boolean loginCheck = controller.checkUser( txtUserName.getText(), 
 			new String(txtPassword.getPassword()));
 		
 		if (loginCheck) {
-			message("titulo", "message", "type");
+			message("LogIn", "wecome " + txtUserName.getText(), "type");
 		} else {
-			message("titulo", "message", "type");
+			message("Error", "username or password are incorrect", "type");
 		}
+		
+		ViewScreen view = new ViewScreen();
+		view.setVisible(true);
+		view.setLocationRelativeTo(null);
+		
+		this.dispose();
     }//GEN-LAST:event_btnLogInActionPerformed
 
 
