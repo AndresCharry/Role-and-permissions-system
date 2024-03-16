@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.mycompany.rolesandpermissionssystem.persistence;
 
 import com.mycompany.rolesandpermissionssystem.logic.Role;
@@ -14,13 +18,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+/**
+ *
+ * @author charry
+ */
 public class RoleJpaController implements Serializable {
 
 	public RoleJpaController(EntityManagerFactory emf) {
 		this.emf = emf;
 	}
 	
-	public RoleJpaController () {
+	public RoleJpaController(){
 		emf = Persistence.createEntityManagerFactory("rolesAndPermissionsJpaPU");
 	}
 	
