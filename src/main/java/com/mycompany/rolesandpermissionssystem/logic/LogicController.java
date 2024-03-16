@@ -76,5 +76,9 @@ public class LogicController {
 		return id;
 	}
 
+	public void deleteUser(int id) {
+		persistenceController.deleteUser(id);
+	}
+
 
 }

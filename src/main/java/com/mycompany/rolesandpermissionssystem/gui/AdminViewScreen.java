@@ -3,6 +3,8 @@ package com.mycompany.rolesandpermissionssystem.gui;
 import com.mycompany.rolesandpermissionssystem.logic.LogicController;
 import com.mycompany.rolesandpermissionssystem.logic.User;
 import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class AdminViewScreen extends javax.swing.JFrame {
@@ -73,6 +75,11 @@ public class AdminViewScreen extends javax.swing.JFrame {
 
         btnDelete.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnLogOut.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         btnLogOut.setText("Log Out");
@@ -191,6 +198,23 @@ public class AdminViewScreen extends javax.swing.JFrame {
 		this.dispose();
     }//GEN-LAST:event_btnCreateActionPerformed
 
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+		if (txtTable.getRowCount() > 0) {
+			if (txtTable.getSelectedRow() != -1 ){
+				int id = Integer.parseInt(String.valueOf(txtTable.getValueAt(txtTable.getSelectedRow(), 0)));
+				
+				controller.deleteUser(id);
+				
+				message("Delete", "User deleted", "information");
+				loadTable();
+			} else {
+				message("Error", "No row selected", "Error");
+			}
+		} else {
+			message("Error", "Table is empty", "Error");
+		}
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnDelete;
@@ -227,5 +251,19 @@ public class AdminViewScreen extends javax.swing.JFrame {
 		}
 		
 		txtTable.setModel(tableModel);
+	}
+
+	private void message(String title, String message, String type) {
+		if (type.equalsIgnoreCase("information")) {
+			JOptionPane optionpane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);
+			JDialog dialog = optionpane.createDialog(title);
+			dialog.setAlwaysOnTop(true);
+			dialog.setVisible(true);
+		} else {
+			JOptionPane optionpane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);
+			JDialog dialog = optionpane.createDialog(title);
+			dialog.setAlwaysOnTop(true);
+			dialog.setVisible(true);
+		}
 	}
 }

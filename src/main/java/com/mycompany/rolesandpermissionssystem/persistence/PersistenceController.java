@@ -2,7 +2,10 @@ package com.mycompany.rolesandpermissionssystem.persistence;
 
 import com.mycompany.rolesandpermissionssystem.logic.Role;
 import com.mycompany.rolesandpermissionssystem.logic.User;
+import com.mycompany.rolesandpermissionssystem.persistence.exceptions.NonexistentEntityException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PersistenceController {
 	
@@ -19,5 +22,13 @@ public class PersistenceController {
 
 	public List<Role> bringRoles() {
 		return roleJpa.findRoleEntities();
+	}
+
+	public void deleteUser(int id) {
+		try {
+			userJpa.destroy(id);
+		} catch (NonexistentEntityException ex) {
+			Logger.getLogger(PersistenceController.class.getName()).log(Level.SEVERE, null, ex);
+		}
 	}
 }
