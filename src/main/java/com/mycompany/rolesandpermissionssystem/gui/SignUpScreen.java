@@ -186,7 +186,6 @@ public class SignUpScreen extends javax.swing.JFrame {
 		message("Create", "Created User ", "information");
 				
 		nextScreen();
-		
     }//GEN-LAST:event_btnSignUpActionPerformed
 
 	

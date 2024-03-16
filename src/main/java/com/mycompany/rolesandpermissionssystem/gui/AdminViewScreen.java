@@ -1,11 +1,17 @@
 package com.mycompany.rolesandpermissionssystem.gui;
 
 import com.mycompany.rolesandpermissionssystem.logic.LogicController;
+import com.mycompany.rolesandpermissionssystem.logic.User;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 public class AdminViewScreen extends javax.swing.JFrame {
 
 	LogicController controller = null;
-	public AdminViewScreen(LogicController controller) {
+	User user = null;
+	
+	public AdminViewScreen(LogicController controller, User user) {
+		this.user = user;
 		this.controller =  controller;
 		initComponents();
 	}
@@ -19,7 +25,7 @@ public class AdminViewScreen extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        txtTable = new javax.swing.JTable();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnLogOut = new javax.swing.JButton();
@@ -38,13 +44,18 @@ public class AdminViewScreen extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 36)); // NOI18N
         jLabel1.setText("User administration system");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        txtTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -55,7 +66,7 @@ public class AdminViewScreen extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(txtTable);
 
         btnEdit.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         btnEdit.setText("Edit");
@@ -72,6 +83,11 @@ public class AdminViewScreen extends javax.swing.JFrame {
         });
 
         btnCreate.setText("create");
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -108,6 +124,7 @@ public class AdminViewScreen extends javax.swing.JFrame {
 
         txtAdminName.setEditable(false);
         txtAdminName.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtAdminName.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtAdminName.setText("jTextField1");
         txtAdminName.setBorder(null);
 
@@ -162,6 +179,18 @@ public class AdminViewScreen extends javax.swing.JFrame {
 		this.dispose();
     }//GEN-LAST:event_btnLogOutActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+		this.txtAdminName.setText(user.getFullName());
+		loadTable();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+		AdminCreateUserScreen createUser = new AdminCreateUserScreen(controller, user);
+		createUser.setVisible(true);
+		createUser.setLocationRelativeTo(null);
+		this.dispose();
+    }//GEN-LAST:event_btnCreateActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnDelete;
@@ -172,7 +201,31 @@ public class AdminViewScreen extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtAdminName;
+    private javax.swing.JTable txtTable;
     // End of variables declaration//GEN-END:variables
+
+	private void loadTable() {
+		DefaultTableModel tableModel = new DefaultTableModel(){
+			@Override
+			public boolean  isCellEditable (int row, int column){
+				return false;
+			}
+		};
+		
+		String[] title = {"id", "user", "full name", "role"};
+		
+		tableModel.setColumnIdentifiers(title);
+		
+		List<User> listUsers = controller.bringUsers();
+		
+		if (listUsers != null) {
+			for (User user : listUsers) {
+				Object[] object = {user.getId(), user.getUserName(), user.getFullName(), user.getRole().getRoleName()};
+				tableModel.addRow(object);
+			}
+		}
+		
+		txtTable.setModel(tableModel);
+	}
 }
