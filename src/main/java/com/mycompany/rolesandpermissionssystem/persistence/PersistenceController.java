@@ -12,7 +12,7 @@ public class PersistenceController {
 		userJpa.create(user);
 	}
 	
-	public List<User> findUsers(){
+	public List<User> bringUsers(){
 		return userJpa.findUserEntities();
 	}
 }

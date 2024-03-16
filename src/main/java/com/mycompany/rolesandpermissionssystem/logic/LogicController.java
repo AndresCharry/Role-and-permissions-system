@@ -8,7 +8,7 @@ public class LogicController {
 	PersistenceController persistenceController = new PersistenceController();
 
 	public User checkUser(String userName, String password) {
-		List<User> listUsers = persistenceController.findUsers();
+		List<User> listUsers = persistenceController.bringUsers();
 		
 		if (!listUsers.isEmpty()){
 			for (User user : listUsers){
@@ -30,4 +30,10 @@ public class LogicController {
 		
 		persistenceController.createUser(user);
 	}
+
+	public List<User> bringUsers() {
+		return persistenceController.bringUsers();
+	}
+
+
 }

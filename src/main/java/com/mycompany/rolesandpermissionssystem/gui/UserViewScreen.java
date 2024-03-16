@@ -1,11 +1,17 @@
 package com.mycompany.rolesandpermissionssystem.gui;
 
 import com.mycompany.rolesandpermissionssystem.logic.LogicController;
+import com.mycompany.rolesandpermissionssystem.logic.User;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 public class UserViewScreen extends javax.swing.JFrame {
 
 	LogicController controller = null;
-	public UserViewScreen(LogicController controller) {
+	User user = null;
+	
+	public UserViewScreen(LogicController controller, User user) {
+		this.user = user;
 		this.controller = controller;
 		initComponents();
 	}
@@ -19,7 +25,7 @@ public class UserViewScreen extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        txtTable = new javax.swing.JTable();
         btnLogOut = new javax.swing.JButton();
         txtUserName = new javax.swing.JTextField();
 
@@ -35,13 +41,18 @@ public class UserViewScreen extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 36)); // NOI18N
         jLabel1.setText("ViewUsers");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        txtTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -52,7 +63,7 @@ public class UserViewScreen extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(txtTable);
 
         btnLogOut.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         btnLogOut.setText("Log Out");
@@ -87,6 +98,7 @@ public class UserViewScreen extends javax.swing.JFrame {
 
         txtUserName.setEditable(false);
         txtUserName.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtUserName.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtUserName.setText("jTextField1");
         txtUserName.setBorder(null);
 
@@ -140,6 +152,11 @@ public class UserViewScreen extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnLogOutActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+		this.txtUserName.setText(user.getFullName());
+		loadTable();
+    }//GEN-LAST:event_formWindowOpened
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogOut;
     private javax.swing.JLabel jLabel1;
@@ -147,7 +164,33 @@ public class UserViewScreen extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable txtTable;
     private javax.swing.JTextField txtUserName;
     // End of variables declaration//GEN-END:variables
+
+	private void loadTable() {
+		DefaultTableModel tableModel = new DefaultTableModel(){
+			@Override
+			public boolean  isCellEditable (int row, int column){
+				return false;
+			}
+		};
+		
+		String[] title = {"id", "user", "full name"};
+		
+		tableModel.setColumnIdentifiers(title);
+		
+		List<User> listUsers = controller.bringUsers();
+		
+		if (listUsers != null) {
+			for (User user : listUsers) {
+				if (user.getRole().getRoleName().equals("user")){
+					Object[] object = {user.getId(), user.getUserName(), user.getFullName()};
+					tableModel.addRow(object);
+				}
+			}
+		}
+		
+		txtTable.setModel(tableModel);
+	}
 }
