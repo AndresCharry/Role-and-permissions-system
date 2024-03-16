@@ -72,6 +72,11 @@ public class AdminViewScreen extends javax.swing.JFrame {
 
         btnEdit.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnDelete.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         btnDelete.setText("Delete");
@@ -215,6 +220,22 @@ public class AdminViewScreen extends javax.swing.JFrame {
 		}
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+		if (txtTable.getRowCount() > 0) {
+			if (txtTable.getSelectedRow() != -1 ){
+				int id = Integer.parseInt(String.valueOf(txtTable.getValueAt(txtTable.getSelectedRow(), 0)));
+				
+				editScreen(id);
+				
+				this.dispose();
+			} else {
+				message("Error", "No row selected", "Error");
+			}
+		} else {
+			message("Error", "Table is empty", "Error");
+		}
+    }//GEN-LAST:event_btnEditActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnDelete;
@@ -265,5 +286,11 @@ public class AdminViewScreen extends javax.swing.JFrame {
 			dialog.setAlwaysOnTop(true);
 			dialog.setVisible(true);
 		}
+	}
+
+	private void editScreen(int id) {
+		EditUserViewScreen editUser = new EditUserViewScreen(controller, user, id);
+		editUser.setVisible(true);
+		editUser.setLocationRelativeTo(null);
 	}
 }

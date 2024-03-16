@@ -51,7 +51,7 @@ public class LogicController {
 	private Role bringRole(String roleName) {
 		List<Role> listRoles = persistenceController.bringRoles();
 		
-		if (listRoles != null){
+		if (!listRoles.isEmpty()){
 			for (Role role : listRoles){
 				if (role.getRoleName().equals(roleName)){
 					return role;
