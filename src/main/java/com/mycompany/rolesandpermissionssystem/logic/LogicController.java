@@ -22,17 +22,58 @@ public class LogicController {
 		return null;
 	}
 
-	public void createUser(String fullName, String userName, String password) {
+	public void createUser(String fullName, String userName, String password, String roleName) {
 		User user = new User();
 		user.setFullName(fullName);
 		user.setUserName(userName);
 		user.setPassword(password);
 		
+		Role role = new Role();
+		role = bringRole(roleName);
+		
+		if (role != null) {
+			user.setRole(role);
+		}
+		
+		int id = findLastId();
+		user.setId(id);
 		persistenceController.createUser(user);
 	}
 
 	public List<User> bringUsers() {
 		return persistenceController.bringUsers();
+	}
+
+	public List<Role> bringRoles() {
+		return persistenceController.bringRoles();
+	}
+
+	private Role bringRole(String roleName) {
+		List<Role> listRoles = persistenceController.bringRoles();
+		
+		if (listRoles != null){
+			for (Role role : listRoles){
+				if (role.getRoleName().equals(roleName)){
+					return role;
+				}
+			}
+		}
+		
+		return null;
+	}
+
+	private int findLastId() {
+		List<User> listUsers = persistenceController.bringUsers();
+		int id ;
+		
+		if (!listUsers.isEmpty()){
+			User user = listUsers.get(listUsers.size()-1);
+			id = user.getId() + 1;
+		} else {
+			id = 1;
+		}
+		
+		return id;
 	}
 
 

@@ -1,5 +1,6 @@
 package com.mycompany.rolesandpermissionssystem.persistence;
 
+import com.mycompany.rolesandpermissionssystem.logic.Role;
 import com.mycompany.rolesandpermissionssystem.logic.User;
 import java.util.List;
 
@@ -14,5 +15,9 @@ public class PersistenceController {
 	
 	public List<User> bringUsers(){
 		return userJpa.findUserEntities();
+	}
+
+	public List<Role> bringRoles() {
+		return roleJpa.findRoleEntities();
 	}
 }
