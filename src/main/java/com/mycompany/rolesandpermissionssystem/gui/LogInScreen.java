@@ -165,12 +165,12 @@ public class LogInScreen extends javax.swing.JFrame {
 
 		if (user != null) {
 			if (user.getRole().getRoleName().equals("admin")){
-				AdminViewScreen adminView = new AdminViewScreen(controller);
+				AdminViewScreen adminView = new AdminViewScreen(controller, user);
 				adminView.setVisible(true);
 				adminView.setLocationRelativeTo(null);
 				this.dispose();
 			} else if (user.getRole().getRoleName().equals("user")) {
-				UserViewScreen userView = new UserViewScreen(controller);
+				UserViewScreen userView = new UserViewScreen(controller, user);
 				userView.setVisible(true);
 				userView.setLocationRelativeTo(null);
 				this.dispose();

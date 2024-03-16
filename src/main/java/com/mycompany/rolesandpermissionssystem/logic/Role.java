@@ -37,12 +37,12 @@ public class Role implements Serializable {
 		this.id = id;
 	}
 
-	public String getRole() {
+	public String getRoleName() {
 		return roleName;
 	}
 
-	public void setRole(String role) {
-		this.roleName = role;
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 
 	public String getDescription() {
@@ -57,7 +57,7 @@ public class Role implements Serializable {
 		return usersList;
 	}
 
-	public void setUsersList(List usersList) {
+	public void setUsersList(List<User> usersList) {
 		this.usersList = usersList;
 	}
 	

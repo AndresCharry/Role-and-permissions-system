@@ -7,19 +7,19 @@ public class LogicController {
 	
 	PersistenceController persistenceController = new PersistenceController();
 
-	public boolean checkUser(String userName, String password) {
+	public User checkUser(String userName, String password) {
 		List<User> listUsers = persistenceController.findUsers();
 		
 		if (!listUsers.isEmpty()){
 			for (User user : listUsers){
 				if (user.getUserName().equalsIgnoreCase(userName)){
 					if(user.getPassword().equals(password)){
-						return true;
+						return user;
 					}
 				}
 			}
 		}
-		return false;
+		return null;
 	}
 
 	public void createUser(String fullName, String userName, String password) {
