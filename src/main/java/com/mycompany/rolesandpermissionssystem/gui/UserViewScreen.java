@@ -5,8 +5,8 @@ import com.mycompany.rolesandpermissionssystem.logic.LogicController;
 public class UserViewScreen extends javax.swing.JFrame {
 
 	LogicController controller = null;
-	public UserViewScreen() {
-		controller =  new LogicController();
+	public UserViewScreen(LogicController controller) {
+		this.controller = controller;
 		initComponents();
 	}
 

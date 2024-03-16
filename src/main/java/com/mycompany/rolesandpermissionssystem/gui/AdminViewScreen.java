@@ -5,8 +5,8 @@ import com.mycompany.rolesandpermissionssystem.logic.LogicController;
 public class AdminViewScreen extends javax.swing.JFrame {
 
 	LogicController controller = null;
-	public AdminViewScreen() {
-		controller =  new LogicController();
+	public AdminViewScreen(LogicController controller) {
+		this.controller =  controller;
 		initComponents();
 	}
 

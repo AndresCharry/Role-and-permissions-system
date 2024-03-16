@@ -1,6 +1,7 @@
 package com.mycompany.rolesandpermissionssystem.gui;
 
 import com.mycompany.rolesandpermissionssystem.logic.LogicController;
+import com.mycompany.rolesandpermissionssystem.logic.User;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -159,20 +160,24 @@ public class LogInScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
-		boolean loginCheck = controller.checkUser( txtUserName.getText(), 
+		User user = controller.checkUser( txtUserName.getText(), 
 			new String(txtPassword.getPassword()));
-		
-		if (loginCheck) {
-			message("LogIn", "wecome " + txtUserName.getText(), "type");
+
+		if (user != null) {
+			if (user.getRole().getRoleName().equals("admin")){
+				AdminViewScreen adminView = new AdminViewScreen(controller);
+				adminView.setVisible(true);
+				adminView.setLocationRelativeTo(null);
+				this.dispose();
+			} else if (user.getRole().getRoleName().equals("user")) {
+				UserViewScreen userView = new UserViewScreen(controller);
+				userView.setVisible(true);
+				userView.setLocationRelativeTo(null);
+				this.dispose();
+			}
 		} else {
 			message("Error", "username or password are incorrect", "type");
 		}
-		
-		ViewScreen view = new ViewScreen();
-		view.setVisible(true);
-		view.setLocationRelativeTo(null);
-		
-		this.dispose();
     }//GEN-LAST:event_btnLogInActionPerformed
 
 
@@ -204,6 +209,5 @@ public class LogInScreen extends javax.swing.JFrame {
 			dialog.setVisible(true);
 		}
 	}
-
 
 }
