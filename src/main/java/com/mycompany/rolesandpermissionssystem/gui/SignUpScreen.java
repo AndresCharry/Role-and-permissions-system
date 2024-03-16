@@ -1,6 +1,7 @@
 package com.mycompany.rolesandpermissionssystem.gui;
 
 import com.mycompany.rolesandpermissionssystem.logic.LogicController;
+import com.mycompany.rolesandpermissionssystem.logic.User;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -105,11 +106,11 @@ public class SignUpScreen extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(btnSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64)
-                .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addComponent(btnSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63)
+                .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,14 +181,12 @@ public class SignUpScreen extends javax.swing.JFrame {
 
     private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
 		controller.createUser(txtFullName.getText(), txtUserName.getText(),
-			 new String(txtPassword.getPassword()));
+			 new String(txtPassword.getPassword()), "user");
 		
-		message("titulo", "message", "type");
+		message("Create", "Created User ", "information");
+				
+		nextScreen();
 		
-		ViewScreen view = new ViewScreen();
-		view.setVisible(true);
-		view.setLocationRelativeTo(null);
-		this.dispose();
     }//GEN-LAST:event_btnSignUpActionPerformed
 
 	
@@ -221,5 +220,14 @@ public class SignUpScreen extends javax.swing.JFrame {
 			dialog.setAlwaysOnTop(true);
 			dialog.setVisible(true);
 		}
+	}
+
+	private void nextScreen() {
+		User user = controller.checkUser(txtUserName.getText(), new String (txtPassword.getPassword()));
+		
+		UserViewScreen view = new UserViewScreen(controller,user);
+		view.setVisible(true);
+		view.setLocationRelativeTo(null);
+		this.dispose();
 	}
 }
