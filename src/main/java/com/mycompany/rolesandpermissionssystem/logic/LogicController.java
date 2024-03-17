@@ -80,5 +80,27 @@ public class LogicController {
 		persistenceController.deleteUser(id);
 	}
 
+	public User bringUser(int id) {
+		return persistenceController.bringUser(id);
+	}
+
+	public void editUser(User userEditable, String userName, String password, String fullname, String roleName) {
+		User user = userEditable;
+		user.setUserName(userName);
+		user.setPassword(password);
+		user.setFullName(fullname);
+		
+		List<Role> listRoles = bringRoles();
+		
+		if (!listRoles.isEmpty()) {
+			for (Role role : listRoles) {
+				if (role.getRoleName().equals(roleName)){
+					user.setRole(role);
+				}
+			}
+		}
+		persistenceController.editUser(user);
+	}
+
 
 }

@@ -7,13 +7,16 @@ import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
-public class AdminCreateUserScreen extends javax.swing.JFrame {
+public class EditUserViewScreen extends javax.swing.JFrame {
 
 	LogicController controller = null;
 	User user = null;
+	User editableUser = null;
+	int id;
 	
-	public AdminCreateUserScreen(LogicController controller, User user) {
-		this. user = user;
+	public EditUserViewScreen(LogicController controller, User user, int id) {
+		this.id = id;
+		this.user = user;
 		this.controller = controller;
 		initComponents();
 	}
@@ -35,7 +38,7 @@ public class AdminCreateUserScreen extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         cmbRole = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
-        btnCreate = new javax.swing.JButton();
+        btnLoad = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
 
@@ -47,7 +50,7 @@ public class AdminCreateUserScreen extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 36)); // NOI18N
-        jLabel1.setText("Create user");
+        jLabel1.setText("edit user");
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel2.setText("UserName:");
@@ -106,11 +109,11 @@ public class AdminCreateUserScreen extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnCreate.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        btnCreate.setText("create");
-        btnCreate.addActionListener(new java.awt.event.ActionListener() {
+        btnLoad.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        btnLoad.setText("load");
+        btnLoad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCreateActionPerformed(evt);
+                btnLoadActionPerformed(evt);
             }
         });
 
@@ -128,7 +131,7 @@ public class AdminCreateUserScreen extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(63, 63, 63)
                 .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(19, Short.MAX_VALUE))
@@ -138,7 +141,7 @@ public class AdminCreateUserScreen extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCreate)
+                    .addComponent(btnLoad)
                     .addComponent(btnClear))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
@@ -193,14 +196,15 @@ public class AdminCreateUserScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-		controller.createUser(txtFullName.getText(), txtUserName.getText(),
-				new String(txtPassword.getPassword()),  (String) cmbRole.getSelectedItem());
-
-		message("Create", "Created User", "type");
-
-		adminViewScreen();			
-    }//GEN-LAST:event_btnCreateActionPerformed
+    private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
+		controller.editUser(editableUser, txtUserName.getText(), 
+			new String(txtPassword.getPassword()), txtFullName.getText(),
+			(String) cmbRole.getSelectedItem());
+		
+		message("Edit", "Editer User", "type");
+		
+		adminViewScreen();	
+    }//GEN-LAST:event_btnLoadActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
 		txtUserName.setText("");
@@ -209,19 +213,26 @@ public class AdminCreateUserScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-		List<Role> listRole = controller.bringRoles();
+		editableUser = controller.bringUser(id);
 		
-		if (listRole != null){
-			for (Role role : listRole){
+		txtUserName.setText(editableUser.getUserName());
+		txtPassword.setText(editableUser.getPassword());
+		txtFullName.setText(editableUser.getFullName());
+	
+		List<Role> listRoles = controller.bringRoles();
+		
+		if (listRoles != null){
+			for (Role role: listRoles){
 				cmbRole.addItem(role.getRoleName());
 			}
 		}
 		
+		cmbRole.setSelectedItem(editableUser.getRole().getRoleName());
     }//GEN-LAST:event_formWindowOpened
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
-    private javax.swing.JButton btnCreate;
+    private javax.swing.JButton btnLoad;
     private javax.swing.JComboBox<String> cmbRole;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -251,7 +262,7 @@ public class AdminCreateUserScreen extends javax.swing.JFrame {
 			dialog.setVisible(true);
 		}
 	}
-
+	
 	private void adminViewScreen() {
 		AdminViewScreen view = new AdminViewScreen(controller, user);
 		view.setVisible(true);

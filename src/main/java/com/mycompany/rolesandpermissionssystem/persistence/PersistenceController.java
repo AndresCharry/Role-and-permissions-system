@@ -31,4 +31,16 @@ public class PersistenceController {
 			Logger.getLogger(PersistenceController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
+
+	public User bringUser(int id) {
+		return userJpa.findUser(id);
+	}
+
+	public void editUser(User user) {
+		try {
+			userJpa.edit(user);
+		} catch (Exception ex) {
+			Logger.getLogger(PersistenceController.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
 }
